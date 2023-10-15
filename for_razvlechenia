@@ -1,0 +1,16 @@
+import requests
+from bs4 import BeautifulSoup
+
+url = f"https://zoon.ru/msk/entertainment/metro/sokolniki/"
+response = requests.get(url)
+#print(response.status_code)
+soup = BeautifulSoup(response.text, "html.parser")
+
+allNews = soup.findAll('a', class_="title-link js-item-url")
+#print(allNews)
+''
+filteredNews = []
+for data in allNews:
+    a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+    filteredNews.append(a)
+print(filteredNews)
