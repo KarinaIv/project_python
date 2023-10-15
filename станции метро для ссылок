@@ -1,0 +1,25 @@
+def translate_russian_to_english(text):
+    translation = ""
+    russian_letters = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я -".split()
+    english_letters = "a b v g d e e zh z i y k l m n o p r s t u f kh ts ch sh sh ' y ' e yu ya -".split()
+    for sym in text:
+        if (sym.isalpha()):
+            if sym == 'ь' or sym == 'ъ':
+                continue
+            if (sym.isupper()):
+                translation += english_letters[russian_letters.index(sym.lower())]
+            else:
+                translation += english_letters[russian_letters.index(sym)]
+        else:
+            if sym == ' ':
+                translation += '_'
+            else:
+                translation += sym
+    return translation
+
+
+f = open('stan.txt')
+d = {}
+for i in f.read().split('\n'):
+    d[i] = translate_russian_to_english(i)
+print(d)
