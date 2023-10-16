@@ -58,12 +58,12 @@ def get_metro(message):
 
 def get_activity(message):
     user_data['activity'] = message.text.lower()
-    if user_data['activity'] in ['развлечение', 'просвещение']:
-        #bot.send_message(message.chat.id, "Сколько приблизительно ты готов потратить денег?")
-        #bot.register_next_step_handler(message, get_budget)
+    if user_data['activity'] in ['развлечение']:
         find_razvl(message)
-    #else:
-        #find_place(message)
+    elif user_data['activity'] in ['просвещение']:
+        find_prosv(message)
+    else:
+        find_walk(message)
 
 def find_razvl(message):
     user_id = message.from_user.id
@@ -93,7 +93,45 @@ def find_razvl(message):
     for i in range(lens):
         new_dct[keys_[i]] = mero_and_links[keys_[i]]
     for k, v in new_dct.items():
-        bot.send_message(message.chat.id, text=f'{k} Подробнee =>  {v} ')
+        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
+
+def find_prosv(message):
+    user_id = message.from_user.id
+    searchQuery = message.text
+    url = f"https://zoon.ru/msk/cultural_places/type/muzej/metro/{d[user_data['metro']]}/"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    allNews = soup.findAll('a', class_="title-link js-item-url")
+    museons_and_links = {}
+    for data in allNews:
+        b = str(data).split()
+        a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+        mas = []
+        for i in b:
+            if 'href' in i:
+                museons_and_links[a] = i[6:-1]
+    for k, v in museons_and_links.items():
+        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
+
+def find_walk(message):
+    user_id = message.from_user.id
+    searchQuery = message.text
+    url = f"https://zoon.ru/msk/entertainment/type/parki/metro/{d[user_data['metro']]}/"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    allNews = soup.findAll('a', class_="title-link js-item-url")
+    museons_and_links = {}
+    for data in allNews:
+        b = str(data).split()
+        a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+        mas = []
+        for i in b:
+            if 'href' in i:
+                museons_and_links[a] = i[6:-1]
+    for k, v in museons_and_links.items():
+        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
 
 def find_place(message):
     if user_data['activity'] == 'развлечение':
