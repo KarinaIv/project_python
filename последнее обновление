@@ -50,13 +50,14 @@ def get_metro(message):
         bot.register_next_step_handler(message, get_metro)
         return
 
+    bot.register_next_step_handler(message, get_activity)
+
+def get_activity(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     activity_buttons = [types.KeyboardButton(activity) for activity in ["Развлечение", "Прогулка", "Просвещение"]]
     markup.add(*activity_buttons)
     bot.send_message(message.chat.id, "Теперь выбери вид деятельности:", reply_markup=markup)
-    bot.register_next_step_handler(message, get_activity)
 
-def get_activity(message):
     user_data['activity'] = message.text.lower()
     if user_data['activity'] in ['развлечение']:
         find_razvl(message)
