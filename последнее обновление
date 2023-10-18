@@ -49,14 +49,14 @@ def get_metro(message):
         bot.send_message(message.chat.id, "Этой станции метро не существует, введите снова.")
         bot.register_next_step_handler(message, get_metro)
         return
-
-    bot.register_next_step_handler(message, get_activity)
-
-def get_activity(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     activity_buttons = [types.KeyboardButton(activity) for activity in ["Развлечение", "Прогулка", "Просвещение"]]
     markup.add(*activity_buttons)
     bot.send_message(message.chat.id, "Теперь выбери вид деятельности:", reply_markup=markup)
+
+    bot.register_next_step_handler(message, get_activity)
+
+def get_activity(message):
 
     user_data['activity'] = message.text.lower()
     if user_data['activity'] in ['развлечение']:
@@ -74,27 +74,31 @@ def find_razvl(message):
     # print(response.status_code)
     soup = BeautifulSoup(response.text, "html.parser")
     allNews = soup.findAll('a', class_="title-link js-item-url")
-    # print(allNews)
+    if allNews == []:
+        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
+        bot.register_next_step_handler(message, get_activity)
+        return
+    else:
 
-    mero_and_links = {}
-    for data in allNews:
-        b = str(data).split()
-        # print(b)
-        a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-        # mas = soup.find_all("a", string=a)
-        mas = []
-        for i in b:
-            if 'href' in i:
-                mero_and_links[a] = i[6:-1]
-    lens = len(mero_and_links) // 4
-    new_dct = {}
-    keys = list(mero_and_links.keys())
+        mero_and_links = {}
+        for data in allNews:
+            b = str(data).split()
+            # print(b)
+            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+            # mas = soup.find_all("a", string=a)
+            mas = []
+            for i in b:
+                if 'href' in i:
+                    mero_and_links[a] = i[6:-1]
+        lens = len(mero_and_links) // 4
+        new_dct = {}
+        keys = list(mero_and_links.keys())
 
-    keys_ = keys[:lens + 1]
-    for i in range(lens):
-        new_dct[keys_[i]] = mero_and_links[keys_[i]]
-    for k, v in new_dct.items():
-        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
+        keys_ = keys[:lens + 1]
+        for i in range(lens):
+            new_dct[keys_[i]] = mero_and_links[keys_[i]]
+        for k, v in new_dct.items():
+            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
 
 def find_prosv(message):
     user_id = message.from_user.id
@@ -104,16 +108,21 @@ def find_prosv(message):
     soup = BeautifulSoup(response.text, "html.parser")
 
     allNews = soup.findAll('a', class_="title-link js-item-url")
-    museons_and_links = {}
-    for data in allNews:
-        b = str(data).split()
-        a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-        mas = []
-        for i in b:
-            if 'href' in i:
-                museons_and_links[a] = i[6:-1]
-    for k, v in museons_and_links.items():
-        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
+    if allNews == []:
+        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
+        bot.register_next_step_handler(message, get_activity)
+        return
+    else:
+        museons_and_links = {}
+        for data in allNews:
+            b = str(data).split()
+            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+            mas = []
+            for i in b:
+                if 'href' in i:
+                    museons_and_links[a] = i[6:-1]
+        for k, v in museons_and_links.items():
+            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
 
 def find_walk(message):
     user_id = message.from_user.id
@@ -123,16 +132,21 @@ def find_walk(message):
     soup = BeautifulSoup(response.text, "html.parser")
 
     allNews = soup.findAll('a', class_="title-link js-item-url")
-    museons_and_links = {}
-    for data in allNews:
-        b = str(data).split()
-        a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-        mas = []
-        for i in b:
-            if 'href' in i:
-                museons_and_links[a] = i[6:-1]
-    for k, v in museons_and_links.items():
-        bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
+    if allNews == []:
+        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
+        bot.register_next_step_handler(message, get_activity)
+        return
+    else:
+        museons_and_links = {}
+        for data in allNews:
+            b = str(data).split()
+            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
+            mas = []
+            for i in b:
+                if 'href' in i:
+                    museons_and_links[a] = i[6:-1]
+        for k, v in museons_and_links.items():
+            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
 
 def find_place(message):
     if user_data['activity'] == 'развлечение':
