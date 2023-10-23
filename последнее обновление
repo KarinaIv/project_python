@@ -5,15 +5,51 @@ import requests
 from bs4 import BeautifulSoup
 
 bot = telebot.TeleBot('6634529791:AAH3kuvsJDrba9cNvnompLn55rMvzwqObjY')
-existing_metro_stations = ['Авиамоторная', 'Автозаводская', 'Академическая', 'Александровский Сад', 'Алексеевская', 'Алтуфьево', 'Аннино', 'Арбатская', 'Аэропорт', 'Бабушкинская', 'Багратионовская', 'Баррикадная', 'Бауманская', 'Беговая', 'Белорусская', 'Беляево', 'Бибирево', 'Библиотека им.Ленина', 'Битцевский Парк', 'Борисово', 'Боровицкая', 'Боровское шоссе', 'Ботанический Сад', 'Братеево', 'Братиславская', 'Бульвар адмирала Ушакова', 'Бульвар Дмитрия Донского', 'Бунинская аллея', 'Варшавская', 'ВДНХ', 'Владыкино', 'Водный Стадион', 'Войковская', 'Волгоградский Проспект', 'Волжская', 'Волоколамская', 'Воробьевы Горы', 'Востриково', 'ВЦ', 'Выхино', 'Дегунино', 'Деловой центр', 'Динамо', 'Дмитровская', 'Добрынинская', 'Домодедовская', 'Достоевская', 'Дубровка', 'Жулебино', 'Зябликово', 'Измайловская', 'Калужская', 'Кантемировская', 'Каховская', 'Каширская', 'Киевская', 'Китай-Город', 'Кожуховская', 'Коломенская', 'Комсомольская', 'Коньково', 'Красногвардейская', 'Краснопресненская', 'Красносельская', 'Красные Ворота', 'Крестьянская Застава', 'Кропоткинская', 'Крылатское', 'Кузнецкий Мост', 'Кузьминки', 'Кунцевская', 'Курская', 'Кутузовская', 'Ленинский Проспект', 'Лихоборы', 'Лубянка', 'Люблино', 'Маркситская', 'Марьина роща', 'Марьино', 'Маяковская', 'Медведково', 'Международная', 'Менделеевская', 'Минская', 'Митино', 'Молодежная', 'Нагатинская', 'Нагорная', 'Нахимовский Проспект', 'Никулинская', 'Новогиреево', 'Новокосино', 'Новокузнецкая', 'Новокурьяново', 'Новопеределкино', 'Новослободская', 'Новые Черемушки', 'Октябрьская', 'Октябрьское Поле', 'Олимпийская деревня', 'Орехово', 'Останкино', 'Отрадное', 'Охотный Ряд', 'Павелецкая', 'Парк Культуры', 'Парк Победы', 'Партизанская', 'Первомайская', 'Перово', 'Петровско-Разумовская', 'Печатники', 'Пионерская', 'Планерная', 'Площадь Ильича', 'Площадь Революции', 'Площадь Суворова', 'Полежаевская', 'Полянка', 'Пражская', 'Преображенская Площадь', 'Пролетарская', 'Пронская', 'Проспект Вернадского', 'Проспект Мира', 'Профсоюзная', 'Пушкинская', 'Речной Вокзал', 'Рижская', 'Римская', 'Рязанский Проспект', 'Савеловская', 'Свиблово', 'Севастопольская', 'Селигерская', 'Семеновская', 'Серпуховская', 'Славянский бульвар', 'Смоленская', 'Сокол', 'Сокольники', 'Солнцево', 'Спортивная', 'Сретенский бульвар', 'Строгино', 'Студенческая', 'Сухаревская', 'Сходненская', 'Таганская', 'Тверская', 'Театральная', 'Текстильщики', 'Телецентр', 'Теплый Стан', 'Терешково', 'Тимирязевская', 'Третьяковская', 'Трубная', 'Тульская', 'Тургеневская', 'Тушинская', 'Улица ', '905 года', 'Улица академика Королева', 'Улица Академика Янгеля', 'Улица Горчакова', 'Улица Милашенкова', 'Улица Остафьевская', 'Улица Подбельского', 'Улица Сергея Эйзенштейна', 'Улица Скобелевская', 'Улица Старокочаловская', 'Улица Старопотаповская', 'Университет', 'Филевский Парк', 'Фили', 'Фрунзенская', 'Царицыно', 'Цветной бульвар', 'Челобитьево', 'Черкизовская', 'Чертановская', 'Чеховская', 'Чистые пруды', 'Чкаловская', 'Шаболовская', 'Шипиловская', 'Шоссе Энтузиастов', 'Щелковская', 'Щукинская', 'Электрозаводская', 'Юбилейная', 'Юго-Западная', 'Южная', 'Ясенево']
-
+existing_metro_stations = ['Авиамоторная', 'Автозаводская', 'Академическая', 'Александровский Сад', 'Алексеевская',
+                           'Алтуфьево', 'Аннино', 'Арбатская', 'Аэропорт', 'Бабушкинская', 'Багратионовская',
+                           'Баррикадная', 'Бауманская', 'Беговая', 'Белорусская', 'Беляево', 'Бибирево',
+                           'Библиотека имени Ленина', 'Битцевский Парк', 'Борисово', 'Боровицкая', 'Боровское шоссе',
+                           'Ботанический Сад', 'Братеево', 'Братиславская', 'Бульвар адмирала Ушакова',
+                           'Бульвар Дмитрия Донского', 'Бунинская аллея', 'Варшавская', 'ВДНХ', 'Владыкино',
+                           'Водный Стадион', 'Войковская', 'Волгоградский Проспект', 'Волжская', 'Волоколамская',
+                           'Воробьевы Горы', 'Востриково', 'ВЦ', 'Выхино', 'Дегунино', 'Деловой центр', 'Динамо',
+                           'Дмитровская', 'Добрынинская', 'Домодедовская', 'Достоевская', 'Дубровка', 'Жулебино',
+                           'Зябликово', 'Измайловская', 'Калужская', 'Кантемировская', 'Каховская', 'Каширская',
+                           'Киевская', 'Китай-Город', 'Кожуховская', 'Коломенская', 'Комсомольская', 'Коньково',
+                           'Красногвардейская', 'Краснопресненская', 'Красносельская', 'Красные Ворота',
+                           'Крестьянская Застава', 'Кропоткинская', 'Крылатское', 'Кузнецкий Мост', 'Кузьминки',
+                           'Кунцевская', 'Курская', 'Кутузовская', 'Ленинский Проспект', 'Лубянка',
+                           'Люблино', 'Маркситская', 'Марьина роща', 'Марьино', 'Маяковская', 'Медведково',
+                           'Международная', 'Менделеевская', 'Минская', 'Митино', 'Молодежная', 'Нагатинская',
+                           'Нагорная', 'Нахимовский Проспект', 'Никулинская', 'Новогиреево', 'Новокосино',
+                           'Новокузнецкая', 'Новокурьяново', 'Новопеределкино', 'Новослободская', 'Новые Черемушки',
+                           'Октябрьская', 'Октябрьское Поле', 'Олимпийская деревня', 'Орехово', 'Останкино', 'Отрадное',
+                           'Охотный Ряд', 'Павелецкая', 'Парк Культуры', 'Парк Победы', 'Партизанская', 'Первомайская',
+                           'Перово', 'Петровско-Разумовская', 'Печатники', 'Пионерская', 'Планерная', 'Площадь Ильича',
+                           'Площадь Революции', 'Площадь Суворова', 'Полежаевская', 'Полянка', 'Пражская',
+                           'Преображенская Площадь', 'Пролетарская', 'Пронская', 'Проспект Вернадского',
+                           'Проспект Мира', 'Профсоюзная', 'Пушкинская', 'Речной Вокзал', 'Рижская', 'Римская',
+                           'Рязанский Проспект', 'Савеловская', 'Свиблово', 'Севастопольская', 'Селигерская',
+                           'Семеновская', 'Серпуховская', 'Славянский бульвар', 'Смоленская', 'Сокол', 'Сокольники',
+                           'Солнцево', 'Спортивная', 'Сретенский бульвар', 'Строгино', 'Студенческая', 'Сухаревская',
+                           'Сходненская', 'Таганская', 'Тверская', 'Театральная', 'Текстильщики', 'Телецентр',
+                           'Теплый Стан', 'Терешково', 'Тимирязевская', 'Третьяковская', 'Трубная', 'Тульская',
+                           'Тургеневская', 'Тушинская', 'Улица академика Королева',
+                           'Улица Академика Янгеля', 'Улица Горчакова', 'Улица Милашенкова', 'Улица Остафьевская',
+                           'Улица Подбельского', 'Улица Сергея Эйзенштейна', 'Улица Скобелевская',
+                           'Улица Старокочаловская', 'Улица Старопотаповская', 'Университет', 'Филевский Парк', 'Фили',
+                           'Фрунзенская', 'Царицыно', 'Цветной бульвар', 'Челобитьево', 'Черкизовская', 'Чертановская',
+                           'Чеховская', 'Чистые пруды', 'Чкаловская', 'Шаболовская', 'Шипиловская', 'Шоссе Энтузиастов',
+                           'Щёлковская', 'Щукинская', 'Электрозаводская', 'Юбилейная', 'Юго-Западная', 'Южная',
+                           'Ясенево']
 
 user_data = {}
 
+#фунция перевода станций на "английский"
 def translate_russian_to_english(text):
     translation = ""
     russian_letters = "а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь э ю я -".split()
-    english_letters = "a b v g d e e zh z i y k l m n o p r s t u f kh ts ch sh sh ' y ' e yu ya -".split()
+    english_letters = "a b v g d e yo zh z i j k l m n o p r s t u f kh ts ch sh sch ' y ' e yu ya -".split()
     for sym in text:
         if (sym.isalpha()):
             if sym == 'ь' or sym == 'ъ':
@@ -35,20 +71,23 @@ d = {}
 for i in f.read().split('\n'):
     d[i] = translate_russian_to_english(i)
 
+
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     bot.send_message(message.chat.id, "Привет! Я помогу тебе найти место для развлечения, прогулки или просвещения."
                                       "Давай начнем. Напиши станцию метро, на которой ты находишься.")
     bot.register_next_step_handler(message, get_metro)
 
+
 def get_metro(message):
     user_data['metro'] = message.text.capitalize()
-
+    metro_2 = message.text
     # Проверка, существует ли введенная станция метро
-    if user_data['metro'] not in existing_metro_stations:
+    if user_data['metro'] not in existing_metro_stations and metro_2 not in existing_metro_stations:
         bot.send_message(message.chat.id, "Этой станции метро не существует, введите снова.")
         bot.register_next_step_handler(message, get_metro)
         return
+
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     activity_buttons = [types.KeyboardButton(activity) for activity in ["Развлечение", "Прогулка", "Просвещение"]]
     markup.add(*activity_buttons)
@@ -56,8 +95,8 @@ def get_metro(message):
 
     bot.register_next_step_handler(message, get_activity)
 
-def get_activity(message):
 
+def get_activity(message):
     user_data['activity'] = message.text.lower()
     if user_data['activity'] in ['развлечение']:
         find_razvl(message)
@@ -66,113 +105,146 @@ def get_activity(message):
     else:
         find_walk(message)
 
+
+cnt = 0
+
+output = {}
+
+#функция поиска развлечений
 def find_razvl(message):
-    user_id = message.from_user.id
-    searchQuery = message.text
-    url = f"https://zoon.ru/msk/entertainment/metro/{d[user_data['metro']]}/"
-    response = requests.get(url)
-    # print(response.status_code)
-    soup = BeautifulSoup(response.text, "html.parser")
-    allNews = soup.findAll('a', class_="title-link js-item-url")
-    if allNews == []:
-        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
-        bot.register_next_step_handler(message, get_activity)
-        return
-    else:
+    try:
+        url = f"https://zoon.ru/msk/entertainment/metro/{d[user_data['metro']]}/"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser") #получаем html код страницы
+        all_ = soup.findAll('a', class_="title-link js-item-url") #выбираем только элементы с тегом <a>
+        # если список пуст, значит на сайте нет ничего для нашей станции
+        if all_ == []:
+            bot.send_message(message.chat.id, "Я не нашел развлечения на этой станции. Выберите другой вид деятельности")
+            bot.register_next_step_handler(message, get_activity)
+            return
+        else:
+            global output
+            output = {}
+            for elem in all_[1:]:
+                stroka = str(elem).split() #каждую строку из all_ сплитим и записываем
+                text = elem.text.strip('\t').strip('\n').strip('\t').strip('\n') #берем только название мероприятия
+                for i in stroka:
+                    if 'href' in i:
+                        output[text] = i[6:-1] #в словарь записываем название-ссылку
+            global cnt
+            cnt = 0
+            if len(output) <= 3 and len(output) > 0:
+                for k, v in output.items():
+                    bot.send_message(message.chat.id, text=f'{k} \nПодробнee=>{v}')
+            else:
+                for k, v in output.items():
+                    bot.send_message(message.chat.id, text=f'{k} \nПодробнee=>{v}')
+                    cnt += 1
+                    if cnt >= 3:
+                        bot.send_message(message.chat.id, text='Достаточно?')
+                        bot.register_next_step_handler(message, out)
+                        break
+    except KeyError:
+        bot.send_message(message.chat.id, text='К сожалению, произошла ошибка:(\nДело не в вас, а во мне. Выберите другую станцию')
+        bot.register_next_step_handler(message, get_metro)
 
-        mero_and_links = {}
-        for data in allNews:
-            b = str(data).split()
-            # print(b)
-            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-            # mas = soup.find_all("a", string=a)
-            mas = []
-            for i in b:
-                if 'href' in i:
-                    mero_and_links[a] = i[6:-1]
-        lens = len(mero_and_links) // 4
-        new_dct = {}
-        keys = list(mero_and_links.keys())
 
-        keys_ = keys[:lens + 1]
-        for i in range(lens):
-            new_dct[keys_[i]] = mero_and_links[keys_[i]]
-        for k, v in new_dct.items():
-            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
-
+#функция поиска просветительских мероприятий
 def find_prosv(message):
-    user_id = message.from_user.id
-    searchQuery = message.text
-    url = f"https://zoon.ru/msk/cultural_places/type/muzej/metro/{d[user_data['metro']]}/"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+    try:
+        url = f"https://zoon.ru/msk/cultural_places/type/muzej/metro/{d[user_data['metro']]}/"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser") #получаем html код страницы
+        all_ = soup.findAll('a', class_="title-link js-item-url") #выбираем только элементы с тегом <a>
+        # если список пуст, значит на сайте нет ничего для нашей станции
+        if all_ == []:
+            bot.send_message(message.chat.id, "Я не нашел просветительских мероприятий на этой станции. Выберите другой вид деятельности")
+            bot.register_next_step_handler(message, get_activity)
+            return
+        else:
+            global output
+            output = {}
+            for elem in all_[1:]:
+                stroka = str(elem).split() #каждую строку из all_ сплитим и записываем
+                text = elem.text.strip('\t').strip('\n').strip('\t').strip('\n') #берем только название мероприятия
+                for i in stroka:
+                    if 'href' in i:
+                        output[text] = i[6:-1] #в словарь записываем название-ссылку
+            global cnt
+            cnt = 0
+            for k, v in output.items():
+                bot.send_message(message.chat.id, text=f'{k} \nПодробнee=>{v}')
+                cnt += 1
+                if cnt >= 3:
+                    bot.send_message(message.chat.id, text='Достаточно?')
+                    bot.register_next_step_handler(message, out)
+                    break
+    except KeyError:
+        bot.send_message(message.chat.id, text='К сожалению, произошла ошибка:(\nДело не в вас, а во мне. Выберите другую станцию')
+        bot.register_next_step_handler(message, get_metro)
 
-    allNews = soup.findAll('a', class_="title-link js-item-url")
-    if allNews == []:
-        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
-        bot.register_next_step_handler(message, get_activity)
-        return
-    else:
-        museons_and_links = {}
-        for data in allNews:
-            b = str(data).split()
-            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-            mas = []
-            for i in b:
-                if 'href' in i:
-                    museons_and_links[a] = i[6:-1]
-        for k, v in museons_and_links.items():
-            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
 
+#функция поиска парков
 def find_walk(message):
-    user_id = message.from_user.id
-    searchQuery = message.text
-    url = f"https://zoon.ru/msk/entertainment/type/parki/metro/{d[user_data['metro']]}/"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, "html.parser")
+    try:
+        url = f"https://zoon.ru/msk/entertainment/type/parki/metro/{d[user_data['metro']]}/"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser") #получаем html код страницы
+        all_ = soup.findAll('a', class_="title-link js-item-url") #выбираем только элементы с тегом <a>
+        # если список пуст, значит на сайте нет ничего для нашей станции
+        if all_ == []:
+            bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
+            bot.register_next_step_handler(message, get_activity)
+            return
+        else:
+            global output
+            output = {}
+            for elem in all_[1:]:
+                stroka = str(elem).split() #каждую строку из all_ сплитим и записываем
+                text = elem.text.strip('\t').strip('\n').strip('\t').strip('\n') #берем только название мероприятия
+                for i in stroka:
+                    if 'href' in i:
+                        output[text] = i[6:-1] #в словарь записываем название-ссылку
 
-    allNews = soup.findAll('a', class_="title-link js-item-url")
-    if allNews == []:
-        bot.send_message(message.chat.id, "Я не нашел парки на этой станции. Выберите другой вид деятельности")
-        bot.register_next_step_handler(message, get_activity)
+            global cnt
+            cnt = 0
+            if len(output) <= 3 and len(output) > 0:
+                for k, v in output.items():
+                    bot.send_message(message.chat.id, text=f'{k} \nПодробнee =>{v}')
+                    break
+            else:
+                for k, v in output.items():
+                    bot.send_message(message.chat.id, text=f'{k} \nПодробнee =>{v}')
+                    cnt += 1
+
+                    if cnt >= 3:
+                        bot.send_message(message.chat.id, text='Достаточно?')
+                        bot.register_next_step_handler(message, out)
+                        break
+    except KeyError:
+        bot.send_message(message.chat.id, text='К сожалению, произошла ошибка:(\nДело не в вас, а во мне. Выберите другую станцию')
+        bot.register_next_step_handler(message, get_metro)
+
+def out(message):
+    if message.text == 'да' or message.text == 'Да':
+        bot.send_message(message.chat.id, text='Вы можете найти активности на другой станции\nВведите название')
+        bot.register_next_step_handler(message, get_metro)
         return
     else:
-        museons_and_links = {}
-        for data in allNews:
-            b = str(data).split()
-            a = data.text.strip('\t').strip('\n').strip('\t').strip('\n')
-            mas = []
-            for i in b:
-                if 'href' in i:
-                    museons_and_links[a] = i[6:-1]
-        for k, v in museons_and_links.items():
-            bot.send_message(message.chat.id, text=f'{k} \n Подробнee => {v}')
-
-def find_place(message):
-    if user_data['activity'] == 'развлечение':
-        query = f"Развлечения в Москве на {user_data['budget']}"
-    elif user_data['activity'] == 'просвещение':
-        query = f"Музеи в Москве на {user_data['budget']}"
-    else:
-        query = "Где погулять Москва"
-
-
-    place_name = "Название места"
-    metro_name = user_data['metro']
-    bot.send_message(message.chat.id, f"Я нашел место: {place_name}, станция метро: {metro_name}. "
-                                      "Вы довольны выбором? (Да/Нет)")
-    bot.register_next_step_handler(message, handle_confirmation)
-
-def handle_confirmation(message):
-    if message.text.lower() == 'да':
-        bot.send_message(message.chat.id, "Отлично! Увидимся в следующий раз.")
-    elif message.text.lower() == 'нет':
-        # Повторный запрос при отказе
-        bot.send_message(message.chat.id, "Хорошо, давай попробуем еще раз.")
-        handle_start(message)
-    else:
-        bot.send_message(message.chat.id, "Пожалуйста, ответьте 'Да' или 'Нет'.")
-        bot.register_next_step_handler(message, handle_confirmation)
+        global cnt
+        for i in range(3):
+            if len(list(output.keys())) > cnt:
+                bot.send_message(message.chat.id,
+                                 text=f'{list(output.keys())[cnt]} \nПодробнee =>{list(output.values())[cnt]}')
+            else:
+                bot.send_message(message.chat.id,
+                                 text='Больше нет доступных активностей\nВы можете найти активности на другой станции')
+                bot.register_next_step_handler(message, get_metro)
+                break
+            cnt += 1
+        else:
+            bot.send_message(message.chat.id, text='Достаточно?')
+            bot.register_next_step_handler(message, out)
 
 if __name__ == "__main__":
     bot.polling(none_stop=True)
